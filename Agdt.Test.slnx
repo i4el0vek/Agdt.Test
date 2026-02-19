@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../../../Desktop/postman_collection.json" />
+  </Folder>
+  <Project Path="../Agdt.ConsoleApp/Agdt.ConsoleApp.csproj" Id="f7266aaa-ac28-47a7-bab0-458b294bf7b7" />
+  <Project Path="Agdt.Core/Agdt.Core.csproj" />
+  <Project Path="Agdt.Host/Agdt.Host.csproj" />
+  <Project Path="Agdt.Persistent/Agdt.Persistent.csproj" />
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+</Solution>
