@@ -2,8 +2,6 @@
 
 public enum UserStatus
 {
-	Inactive,
-	Active,
-	Archived,
-	NotValid,
+	True,
+	False,
 }

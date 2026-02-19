@@ -26,5 +26,5 @@ public class CreatePatientCommand : IRequest<Patient>
 	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public Gender Gender { get; set; }
 
-	public bool Active { get; set; }
+	public UserStatus Active { get; set; }
 }

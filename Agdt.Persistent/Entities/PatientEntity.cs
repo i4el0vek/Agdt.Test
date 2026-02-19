@@ -8,6 +8,6 @@ public record PatientEntity
 	public NameEntity Name { get; set; }
 	public Gender Gender { get; set; }
 	public DateTimeOffset BirthDate { get; set; }
-	public bool Active { get; set; } 
+	public UserStatus Active { get; set; } 
 }
 
