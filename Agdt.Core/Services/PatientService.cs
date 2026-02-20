@@ -24,26 +24,29 @@ public class PatientService
 			return _patientRepository.GetAllPatientsAsync();
 		}
 
-		var patients = _patientRepository.GetAllPatientsAsync();
+		IQueryable<Patient> patients = _patientRepository.GetAllPatientsQueryAsync();
 
 		// TODO: Move to another place or library (including FhirDateFilter)
-		foreach (var filterRaw in dateFilters.Where(x => !string.IsNullOrEmpty(x)))
-		{
-			var filter = FhirDateFilter.Parse(filterRaw);
+		var filters = dateFilters
+			.Where(x => !string.IsNullOrEmpty(x))
+			.Select(FhirDateFilter.Parse)
+			.ToList();
 
+		foreach (var filter in filters)
+		{
 			patients = filter.Prefix switch
 			{
-				"eq" => patients.Where(x => x.BirthDate == filter.Date),
-				"ne" => patients.Where(x => x.BirthDate != filter.Date),
+				"eq" => patients.Where(x => x.BirthDate == filter.Date), // does not match the specs
+				"ne" => patients.Where(x => x.BirthDate != filter.Date), // does not match the specs
+				"lt" => patients.Where(x => x.BirthDate < filter.Date),
 				"gt" => patients.Where(x => x.BirthDate > filter.Date),
 				"ge" => patients.Where(x => x.BirthDate >= filter.Date),
-				"lt" => patients.Where(x => x.BirthDate < filter.Date),
 				"le" => patients.Where(x => x.BirthDate <= filter.Date),
-				_ => patients
+				_ => patients // sa/eb/ap/text format - too much, left it as is
 			};
 		}
 
-		return patients.AsAsyncEnumerable();
+		return patients.ToAsyncEnumerable();
 	}
 
 	public async Task<Patient?> GetPatientAsync(Guid id)

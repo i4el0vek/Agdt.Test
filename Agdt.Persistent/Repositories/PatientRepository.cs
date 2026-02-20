@@ -1,7 +1,6 @@
 ﻿using Agdt.Core.Interfaces;
 using Agdt.Core.Models;
 using Agdt.Persistent.Entities;
-using Agdt.Persistent.Exceptions;
 using Agdt.Persistent.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -88,6 +87,25 @@ public class PatientRepository : IPatientRepository
 				Active = patient.Active,
 			};
 		}
+	}
+
+	public IQueryable<Patient> GetAllPatientsQueryAsync()
+	{
+		return _patientDbContext.Patients
+			.AsNoTracking()
+			.Select(patient => new Patient
+			{
+				Id = patient.Id,
+				Name = new()
+				{
+					Family = patient.Name.Family,
+					Given = patient.Name.Given,
+					Use = patient.Name.Use,
+				},
+				BirthDate = patient.BirthDate,
+				Gender = patient.Gender,
+				Active = patient.Active,
+			});
 	}
 
 	public async Task UdpatePatientAsync(Patient patient)

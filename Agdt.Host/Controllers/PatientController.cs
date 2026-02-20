@@ -29,7 +29,11 @@ namespace Agdt.Host.Controllers
 		public async Task<IActionResult> Get(Guid id)
 		{
 			var result = await _mediator.Send(new GetPatientByIdQuery(id));
-			return Ok(result.Id);
+			if (result != null)
+			{
+				return Ok(result);
+			}
+			return NotFound();
 		}
 
 		/// <summary>
@@ -52,7 +56,7 @@ namespace Agdt.Host.Controllers
 		public async Task<IActionResult> Register([FromBody]CreatePatientCommand patient)
 		{
 			var result = await _mediator.Send(patient);
-			return Ok(result);
+			return Ok(result.Id);
 		}
 
 		/// <summary>
@@ -63,7 +67,11 @@ namespace Agdt.Host.Controllers
 		public async Task<IActionResult> Edit([FromBody] EditPatientCommand patient)
 		{
 			var result = await _mediator.Send(patient);
-			return Ok(result);
+			if (result)
+			{
+				return Ok();
+			}
+			return NotFound();
 		}
 
 		/// <summary>

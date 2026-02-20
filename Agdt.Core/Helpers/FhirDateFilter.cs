@@ -1,6 +1,6 @@
 ﻿namespace Agdt.Core.Helpers;
 
-public record FhirDateFilter(string Prefix, DateTimeOffset Date)
+public record FhirDateFilter(string Prefix, DateTimeOffset Date, string DateString)
 {
 	public static FhirDateFilter Parse(string input)
 	{
@@ -16,7 +16,7 @@ public record FhirDateFilter(string Prefix, DateTimeOffset Date)
 
 		if (DateTimeOffset.TryParse(datePart, out var date))
 		{
-			return new FhirDateFilter(prefix, date);
+			return new FhirDateFilter(prefix, date, datePart);
 		}
 
 		throw new ArgumentException("Некорректный формат даты");
